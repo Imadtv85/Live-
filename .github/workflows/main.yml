@@ -1,0 +1,32 @@
+name: Facebook Live Streaming
+
+on:
+  push:
+    branches:
+      - main  # تفعيل البث عند الدفع إلى فرع `main`
+  pull_request:
+    branches:
+      - main  # تفعيل البث عند تقديم طلب سحب إلى فرع `main`
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest  # استخدام أحدث إصدار من Ubuntu
+
+    steps:
+      # 1. Checkout the code from the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # 2. تثبيت FFmpeg
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      # 3. استبدال القيم أدناه بـ Stream Key الخاص بك ورابط M3U8
+      - name: Start streaming to Facebook Live
+        run: |
+          STREAM_KEY="FB-1297718058085697-0-AbwXmDSBtllieN5z"  # تم إضافة Stream Key هنا مباشرة
+          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8"  # رابط M3U8
+          echo "Starting stream to Facebook Live..."
+          ffmpeg -re -i "$M3U8_URL" -c:v copy -c:a aac -b:a 128k -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
