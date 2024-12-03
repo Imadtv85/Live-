@@ -30,6 +30,6 @@ jobs:
           M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports4.m3u8"  # رابط M3U8 الجديد
           echo "Starting stream to Facebook Live..."
           ffmpeg -re -i "$M3U8_URL" \
-          -filter_complex "[0:v]drawtext=text='Buz Sport':fontcolor=white:fontsize=40:x=(w-text_w)/2:y=10, \
+          -filter_complex "[0:v]drawtext=text='Buz Sport':fontcolor=white:fontsize=40:x=w-text_w-10:y=10, \
           drawtext=text='لا تنسى متابعة الصفحة':fontcolor=white:fontsize=40:x=(w-text_w)/2:y=h-text_h-10" \
           -c:v libx264 -c:a aac -b:a 128k -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
