@@ -17,7 +17,7 @@ jobs:
 
     - name: بدء البث
       env:
-        STREAM_URL: "http://ugeen.live:8080/Ugeen_VIP7HfpAs/DqxizE/3226" # رابط M3U8
+        STREAM_URL: "http://bdd78.4rouwanda-shop.store/live/9787488847/index.m3u8?t=Rqvv-cltdpaC0GkcyFuT7Q&e=1733359438" # رابط M3U8
         STREAM_KEY: "FB-1298297644694405-0-Abwa1Iwn1X72Ozci" # مفتاح البث الخاص بـ Facebook
       run: |
         ffmpeg -re -i "$STREAM_URL" \
