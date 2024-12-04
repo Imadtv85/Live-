@@ -17,8 +17,8 @@ jobs:
 
     - name: بدء البث
       env:
-        STREAM_URL: "http://ugeen.live:8080/Ugeen_VIP7HfpAs/DqxizE/3225" # رابط M3U8
-        STREAM_KEY: "FB-1298299508027552-0-AbzrlkzoENNb4kjl" # مفتاح البث الخاص بـ Facebook
+        STREAM_URL: "http://ugeen.live:8080/Ugeen_VIP7HfpAs/DqxizE/3226" # رابط M3U8
+        STREAM_KEY: "FB-1298297644694405-0-Abwa1Iwn1X72Ozci" # مفتاح البث الخاص بـ Facebook
       run: |
         ffmpeg -re -i "$STREAM_URL" \
         -c:v libx264 -preset veryfast -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 50 \
