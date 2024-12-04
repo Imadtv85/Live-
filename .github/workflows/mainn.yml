@@ -1,29 +1,26 @@
 name: Facebook Live Streaming
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # لتشغيله يدويًا
+  schedule:
+    - cron: '0 * * * *' # لتشغيله كل ساعة (يمكن تعديل الجدول حسب الحاجة)
 
 jobs:
   stream:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    - name: إعداد FFmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
 
-      - name: Set up ffmpeg
-        run: sudo apt-get install ffmpeg
-
-      - name: Start Streaming to Facebook
-        run: |
-          # استبدل بـ Stream Key الخاص بك
-          STREAM_KEY="FB-122146781708365241-0-Abx9oyj0mqXL6z5m"
-          
-          # رابط الـ M3U8 الذي سيتم بثه
-          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports2.m3u8"
-
-          echo "Starting stream to Facebook Live..."
-          
-          # تشغيل ffmpeg لبث الفيديو إلى Facebook
-          ffmpeg -i "$M3U8_URL" -c:v libx264 -preset veryfast -g 50 -b:v 1500k -c:a aac -ar 44100 -b:a 128k -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
+    - name: بدء البث
+      env:
+        STREAM_URL: "https://live4.beinconnect.us/YallaGoalApp/beINSports4.m3u8" # رابط M3U8
+        STREAM_KEY: "FB-1298250001365836-0-Aby5JTtgamFosAgC" # مفتاح البث الخاص بـ Facebook
+      run: |
+        ffmpeg -re -i "$STREAM_URL" \
+        -c:v libx264 -preset veryfast -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 50 \
+        -c:a aac -b:a 128k -ar 44100 \
+        -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
