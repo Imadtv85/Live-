@@ -18,10 +18,10 @@ jobs:
       - name: Start Streaming to Facebook
         run: |
           # استبدل بـ Stream Key الخاص بك
-          STREAM_KEY="FB-122146669922365241-0-Aby18u5VaGKAAj6x"
+          STREAM_KEY="FB-FB-122146781708365241-0-Abx9oyj0mqXL6z5m"
           
           # رابط الـ M3U8 الذي سيتم بثه
-          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8"
+          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports2.m3u8"
 
           echo "Starting stream to Facebook Live..."
           
