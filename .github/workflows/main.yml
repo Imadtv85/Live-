@@ -1,25 +1,21 @@
-name: Facebook Live Stream
+name: Stream to Facebook Live
 
 on:
-  workflow_dispatch: # يمكن تشغيله يدويًا
+  workflow_dispatch:
 
 jobs:
-  stream_to_facebook:
+  stream:
     runs-on: ubuntu-latest
 
     steps:
-    - name: إعداد FFmpeg
-      run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: بدء البث إلى Facebook
-      env:
-        INPUT_URL: "https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8" # رابط الفيديو المصدر
-        STREAM_URL: "rtmps://live-api-s.facebook.com:443/rtmp/FB-122146660808365241-0-Abzz_4d144mzvSwr" # رابط البث على فيسبوك
-      run: |
-        ffmpeg -re -i "$INPUT_URL" \
-        -filter_complex "\
-        [0:v]boxblur=luma_radius=20:luma_power=2[bg]; \
-        [bg]drawbox=x=0:y=0:w=iw:h=ih:color=black@0.5:t=fill[blurred]; \
-        [blurred]drawtext=text='Imad TV':fontcolor=white:fontsize=50:box=1:boxcolor=black@0.7:boxborderw=10:x=(w-text_w)/2:y=(h-text_h)/2[output]" \
-        -map "[output]" -map 0:a -c:v libx264 -preset veryfast -c:a aac -b:a 128k \
-        -f flv "$STREAM_URL"
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Start Streaming
+        run: |
+          ffmpeg -re -i "https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8" \
+          -c:v libx264 -preset veryfast -c:a aac -b:a 128k -f flv \
+          "rtmps://live-api-s.facebook.com:443/rtmp/FB-122146660808365241-0-Abzz_4d144mzvSwr"
