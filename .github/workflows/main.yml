@@ -1,32 +1,25 @@
-name: Facebook Live Streaming
+name: Facebook Live Stream
 
 on:
-  push:
-    branches:
-      - main  # تفعيل البث عند الدفع إلى فرع `main`
-  pull_request:
-    branches:
-      - main  # تفعيل البث عند تقديم طلب سحب إلى فرع `main`
+  workflow_dispatch: # يمكن تشغيله يدويًا
 
 jobs:
-  stream:
-    runs-on: ubuntu-latest  # استخدام أحدث إصدار من Ubuntu
+  stream_to_facebook:
+    runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the code from the repository
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: إعداد FFmpeg
+      run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
-      # 2. تثبيت FFmpeg
-      - name: Install FFmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-
-      # 3. استبدال القيم أدناه بـ Stream Key الخاص بك ورابط M3U8
-      - name: Start streaming to Facebook Live
-        run: |
-          STREAM_KEY="FB-1297718058085697-0-AbwXmDSBtllieN5z"  # تم إضافة Stream Key هنا مباشرة
-          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8"  # رابط M3U8
-          echo "Starting stream to Facebook Live..."
-          ffmpeg -re -i "$M3U8_URL" -c:v copy -c:a aac -b:a 128k -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
+    - name: بدء البث إلى Facebook
+      env:
+        INPUT_URL: "https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8" # رابط الفيديو المصدر
+        STREAM_URL: "rtmps://live-api-s.facebook.com:443/rtmp/FB-122146660808365241-0-Abzz_4d144mzvSwr" # رابط البث على فيسبوك
+      run: |
+        ffmpeg -re -i "$INPUT_URL" \
+        -filter_complex "\
+        [0:v]boxblur=luma_radius=20:luma_power=2[bg]; \
+        [bg]drawbox=x=0:y=0:w=iw:h=ih:color=black@0.5:t=fill[blurred]; \
+        [blurred]drawtext=text='Imad TV':fontcolor=white:fontsize=50:box=1:boxcolor=black@0.7:boxborderw=10:x=(w-text_w)/2:y=(h-text_h)/2[output]" \
+        -map "[output]" -map 0:a -c:v libx264 -preset veryfast -c:a aac -b:a 128k \
+        -f flv "$STREAM_URL"
