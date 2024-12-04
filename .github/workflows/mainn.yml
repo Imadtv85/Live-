@@ -3,33 +3,27 @@ name: Facebook Live Streaming
 on:
   push:
     branches:
-      - main  # تفعيل البث عند الدفع إلى فرع `main`
-  pull_request:
-    branches:
-      - main  # تفعيل البث عند تقديم طلب سحب إلى فرع `main`
+      - main
 
 jobs:
   stream:
-    runs-on: ubuntu-latest  # استخدام أحدث إصدار من Ubuntu
-
+    runs-on: ubuntu-latest
     steps:
-      # 1. التحقق من الكود من المستودع
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # 2. تثبيت FFmpeg
-      - name: Install FFmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+      - name: Set up ffmpeg
+        run: sudo apt-get install ffmpeg
 
-      # 3. استبدال القيم أدناه بـ Stream Key الخاص بك ورابط M3U8
-      - name: Start streaming to Facebook Live
+      - name: Start Streaming to Facebook
         run: |
-          STREAM_KEY="FB-122146591472365241-0-Abww1nfoQjWNMKeq"  # استبدل بـ Stream Key الخاص بك
-          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports4.m3u8"  # رابط M3U8 الجديد
+          # استبدل بـ Stream Key الخاص بك
+          STREAM_KEY="FB-122146660808365241-0-Abzz_4d144mzvSwr"
+          
+          # رابط الـ M3U8 (أو الـ DASH) الذي سيتم بثه
+          M3U8_URL="https://live4.beinconnect.us/YallaGoalApp/beINSports4.m3u8"
+
           echo "Starting stream to Facebook Live..."
-          ffmpeg -re -i "$M3U8_URL" \
-          -filter_complex "[0:v]drawtext=text='Buz Sport':fontcolor=white:fontsize=40:x=w-text_w-10:y=10, \
-          drawtext=text='لا تنسى متابعة الصفحة':fontcolor=white:fontsize=40:x=(w-text_w)/2:y=h-text_h-10" \
-          -c:v libx264 -c:a aac -b:a 128k -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
+          
+          # تشغيل ffmpeg لبث الفيديو إلى Facebook
+          ffmpeg -i "$M3U8_URL" -c:v libx264 -preset veryfast -g 50 -b:v 1500k -c:a aac -ar 44100 -b:a 128k -f flv "rtmps://live-api-s.facebook.com:443/rtmp/$STREAM_KEY"
