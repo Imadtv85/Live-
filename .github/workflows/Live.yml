@@ -17,8 +17,8 @@ jobs:
 
     - name: بدء البث
       env:
-        STREAM_URL: "https://live4.beinconnect.us/YallaGoalApp/SSC1.m3u8" # رابط M3U8
-        STREAM_KEY: "FB-1298707844653385-0-AbyO_M4GiR4LHdqP" # مفتاح البث الخاص بـ Facebook
+        STREAM_URL: "https://live4.beinconnect.us/YallaGoalApp/SSC2.m3u8" # رابط M3U8
+        STREAM_KEY: "FB-1298712974652872-0-AbwJHaEpSkU1QCey" # مفتاح البث الخاص بـ Facebook
       run: |
         ffmpeg -re -i "$STREAM_URL" \
         -c:v libx264 -preset veryfast -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 50 \
