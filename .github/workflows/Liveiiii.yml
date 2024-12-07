@@ -18,7 +18,7 @@ jobs:
     - name: بدء البث
       env:
         STREAM_URL: "http://het108a.4rouwanda-shop.store/live/918454578001/index.m3u8?t=qiwrPpTnWuEsMR3CnS7WtQ&e=1733601702" # رابط M3U8
-        STREAM_KEY: "FB-1300183834505786-0-Abx1DBDPnuWegbRP_" # مفتاح البث الخاص بـ Facebook
+        STREAM_KEY: "FB-1300183834505786-0-Abx1DBDPnuWegbRP" # مفتاح البث الخاص بـ Facebook
       run: |
         ffmpeg -re -i "$STREAM_URL" \
         -c:v libx264 -preset veryfast -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 50 \
