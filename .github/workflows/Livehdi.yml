@@ -17,8 +17,8 @@ jobs:
 
     - name: بدء البث
       env:
-        STREAM_URL: "https://video-weaver.cdg10.hls.live-video.net/v1/playlist/CsMFJ9037WuHqeuCo4o1-O8ZsM8hStQR9gy4FCm_kQLcRn7z7rVKFGjeveaUp4YFq7N0CQ5wMglm4ITbqvKtbG7HyMKzkvT0rEi4hcvaNYMuiRd0MqZxI3EvLftFix4ocx76pP_CwDrnlS_dRF3MN6-mTbivJDNNdWGiJ3EYTWIAS_HG5eD_VFQQFA4_lO_ysGPD9A35tPXK2ObIoJx2lRN1hNpWw0qu4mjVPkz5Q-8I6f9RUv3BGiTR_z2Eps9bhksoXpllJqhBG0Cn6hLw9_4DphQb0lXMGsmHeTT791XkO4nUnefPNHYWvQNIl9qI9xP1m7yU-QQ8dqTIQKudZ6xcH1Onqfx-6aRf2XPQtOA5Bg-HS65io0c__BCYhsEilE1wYRKZnkc8SgTGt7K9IxTs0f4HScyJ0M0i8VGd7MAKNEXSxckZR7pujFVkgCNcT79UT81zqCbQeBuKziN0yQ1Rkrkj7DJCG_YBCh5devy4VcL5u7aLagkCmbhlWW4XordyxNnUWavLdz9UkxD8ILkk6W3qx55yGjLaWR_YZA2VFjBQoLj6jVqzJxGKXCnNq3KzN5Ybl6nkfUexdeZcsZdiCZQOT3Q5iMdjmJ0AyXhst1r5BFdXZ1HvAvl1Ak6SYCEOQUNP2lmJXlP-EJsLxqreZADIX89QD7FkCvtX1v5g4rjh_n9ClOorbHQbqtLnAY9NmrJKzYPLqRuxnV184yC8qGYzOiWGE2xElgJU2PvLKS7sOLlkifn_tAh1sCaMBimEY-0tRjeshQ-SDmdJHZ0yiRkUOGyHNRXVPMsgLJaGLVBIroWY-VzU16J9NZ1wyUb5T0exbAgf13EejngHgp7MaGymqJ16XncnG2ztsyiBART1T5LOEijbwrk_MM21St2-NcARF1eGCB46KsM6n3Ecy2-KfxmmBfix8pUs8qA9SAgh0AsaDAdS0iTlSohPAOjUWCABKglldS13ZXN0LTIwhgs.m3u8" # رابط M3U8
-        STREAM_KEY: "FB-1301032117754291-0-AbwBZK8A6e3ABYHE" # مفتاح البث الخاص بـ Facebook
+        STREAM_URL: "https://shls-mbc5-prod-dub.shahid.net/out/v1/2720564b6a4641658fdfb6884b160da2/index.m3u8" # رابط M3U8
+        STREAM_KEY: "FB-1301036904420479-0-AbyYhYCPYcSsjEt8" # مفتاح البث الخاص بـ Facebook
       run: |
         ffmpeg -re -i "$STREAM_URL" \
         -c:v libx264 -preset veryfast -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 50 \
