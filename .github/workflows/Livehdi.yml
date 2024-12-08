@@ -17,8 +17,8 @@ jobs:
 
     - name: بدء البث
       env:
-        STREAM_URL: "https://shls-mbc5-prod-dub.shahid.net/out/v1/2720564b6a4641658fdfb6884b160da2/index.m3u8" # رابط M3U8
-        STREAM_KEY: "FB-1301036904420479-0-AbyYhYCPYcSsjEt8" # مفتاح البث الخاص بـ Facebook
+        STREAM_URL: "https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/2m_monde/hls_video_ts_tuhawxpiemz257adfc/2m_monde.m3u8" # رابط M3U8
+        STREAM_KEY: "FB-1301038007753702-0-AbxStvvZeYzB_i0A" # مفتاح البث الخاص بـ Facebook
       run: |
         ffmpeg -re -i "$STREAM_URL" \
         -c:v libx264 -preset veryfast -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 50 \
